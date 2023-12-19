@@ -4,16 +4,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.interactions.Pause;
-import org.openqa.selenium.interactions.PointerInput;
-import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Duration;
-import java.util.Arrays;
 
 import io.appium.java_client.android.AndroidDriver;
 
@@ -42,21 +36,12 @@ public class AppiumTest {
 
     @Test
     public void changeTest() {
+        var textToSetOne = "   ";
         var originalText = driver.findElementById("ru.netology.testing.uiautomator:id/textToBeChanged");
         originalText.isDisplayed();
         var userInput = driver.findElementById("ru.netology.testing.uiautomator:id/userInput");
+        userInput.sendKeys(textToSetOne);
         userInput.click();
-
-        final var finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-        var tapPoint = new Point(551, 1703);
-        var tap = new Sequence(finger, 1);
-        tap.addAction(finger.createPointerMove(Duration.ofMillis(0),
-                PointerInput.Origin.viewport(), tapPoint.x, tapPoint.y));
-        tap.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        tap.addAction(new Pause(finger, Duration.ofMillis(50)));
-        tap.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        driver.perform(Arrays.asList(tap));
-
         var buttonChange = driver.findElementById("ru.netology.testing.uiautomator:id/buttonChange");
         buttonChange.click();
         var finalText = driver.findElementById("ru.netology.testing.uiautomator:id/textToBeChanged");
@@ -66,25 +51,19 @@ public class AppiumTest {
     }
 
     @Test
-    public void changeActivity() {
+    public void changeActivity() throws InterruptedException {
+        var textToSetTwo = "Netology";
         var userInput = driver.findElementById("ru.netology.testing.uiautomator:id/userInput");
+        userInput.sendKeys(textToSetTwo);
         userInput.click();
-
-        final var finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-        var tapPoint = new Point(1021, 1252);
-        var tap = new Sequence(finger, 1);
-        tap.addAction(finger.createPointerMove(Duration.ofMillis(0),
-                PointerInput.Origin.viewport(), tapPoint.x, tapPoint.y));
-        tap.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        tap.addAction(new Pause(finger, Duration.ofMillis(50)));
-        tap.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        driver.perform(Arrays.asList(tap));
-
         var buttonActivity = driver.findElementById("ru.netology.testing.uiautomator:id/buttonActivity");
         buttonActivity.click();
+        Thread.sleep( 5000 );
         var finalText = driver.findElementById("ru.netology.testing.uiautomator:id/text");
         finalText.isDisplayed();
-        Assertions.assertEquals("p", finalText.getText());
+        Thread.sleep( 5000 );
+
+        Assertions.assertEquals(textToSetTwo, finalText.getText());
     }
 
     @AfterEach
