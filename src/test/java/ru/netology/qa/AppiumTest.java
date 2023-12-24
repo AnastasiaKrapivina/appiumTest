@@ -37,8 +37,9 @@ public class AppiumTest {
     @Test
     public void changeTest() {
         var textToSetOne = "   ";
-        var originalText = driver.findElementById("ru.netology.testing.uiautomator:id/textToBeChanged");
-        originalText.isDisplayed();
+        var textToBeChanged = driver.findElementById("ru.netology.testing.uiautomator:id/textToBeChanged");
+        textToBeChanged.isDisplayed();
+        var originalText = textToBeChanged.getText();
         var userInput = driver.findElementById("ru.netology.testing.uiautomator:id/userInput");
         userInput.sendKeys(textToSetOne);
         userInput.click();
@@ -47,7 +48,7 @@ public class AppiumTest {
         var finalText = driver.findElementById("ru.netology.testing.uiautomator:id/textToBeChanged");
         finalText.isDisplayed();
 
-        Assertions.assertEquals(originalText.getText(), finalText.getText());
+        Assertions.assertEquals(originalText, finalText.getText());
     }
 
     @Test
